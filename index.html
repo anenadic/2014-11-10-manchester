@@ -2,53 +2,26 @@
 layout: workshop
 root: .
 venue: University of Manchester
-address: 123 College Street, Euphoria
-country: United-States
-humandate: Feb 17-18, 2020
-humantime: 9:00 am - 4:30 pm
-startdate: 2020-06-17
-enddate: 2020-06-18
-latlng: 41.7901128,-87.6007318
+address: Oxford Road, Manchester
+country: United-Kingdom
+humandate: Nov 09-11, 2014
+humantime: 9:00 am - 5:00 pm
+startdate: 2014-11-09
+enddate: 2014-11-11
+latlng: 53.4656, 2.2336
 registration: restricted
-instructor: ["Grace Hopper", "Alan Turing"]
-helper: ["John von Neumann"]
-contact: admin@software-carpentry.org
+instructor: ["Aleksandra Nenadic", "Aleksandra Pawlik"]
+helper: ["Andy Brass, Mike Cornell"]
+contact: admin-uk@software-carpentry.org
 #redirect: http://www.3rd.party.workshop.home.page.com
 #eventbrite: 00000000000
-lessons: ['R', 'Python', 'SQL', 'Git', 'Bash', 'VM']
+lessons: ['Python', 'Git', 'Bash', 'VM']
 ---
 <!--
     Edit the values in the parameter block above to be appropriate for your workshop.
     Please use three-letter month names for the 'humandate' field.
 -->
 
-<!-- Remove the block below. -->
-<div align="center">
-  <p><strong><em>
-      This page is a template for workshop home pages.
-      <br/>
-      Please see
-      <a href="//github.com/swcarpentry/bc">github.com/swcarpentry/bc</a>
-      for instructions on how to create
-      a repository for your workshop.
-  </em></strong></p>
-</div>
-
-<!--
-    This block includes the Eventbrite registration widget if 'eventbrite' has been set in the header.
-
-    Maybe you need to change height value:
-
-    - for one room use 206px,
-    - for one waitlist room use 152px,
-    - for two room use 254px,
-    - for one waitlist room and one room use 253px,
-    - for two waitlist room use 197px.
--->
-{% if page.eventbrite %}
-<iframe
-  src="//www.eventbrite.com/tickets-external?eid={{page.eventbrite}}&ref=etckt" frameborder="0" width="100%" height="206px" scrolling="auto"></iframe>
-{% endif %}
 
 <h2>General Information</h2>
 
@@ -57,8 +30,11 @@ lessons: ['R', 'Python', 'SQL', 'Git', 'Bash', 'VM']
   is to help scientists and engineers become more productive
   by teaching them basic lab skills for computing
   like program design, version control, data management, and task automation.
-  This two-day hands-on workshop will cover basic concepts and tools;
-  participants will be encouraged to help one another
+  This workshop is a part of the MSc Clinical Bioinformatics programme.
+  During the hands-on training sessions we will cover core skills such as
+  effectively working with command line, structured software development
+  and version control.
+  The participants will be encouraged to help one another
   and to apply what they have learned to their own research problems.
 </p>
 
@@ -69,7 +45,7 @@ lessons: ['R', 'Python', 'SQL', 'Git', 'Bash', 'VM']
 -->
 <p>
   <strong>Who:</strong>
-  The course is aimed at graduate students and other researchers.
+  The course is aimed at the postgraduate students of the MSc Clinical Bioinformatics course at the University of Manchester.
 </p>
 
 <!--
@@ -91,8 +67,8 @@ lessons: ['R', 'Python', 'SQL', 'Git', 'Bash', 'VM']
 -->
 <p>
   <strong>Requirements:</strong>
-  Participants must bring a laptop with a few specific software packages installed
-  (listed below). They are also required to abide by Software Carpentry's
+  Participants will work on the Software Carpentry Virtual Machines provided by the University. 
+  They are also required to abide by Software Carpentry's
   <a href="http://software-carpentry.org/conduct.html">Code of Conduct</a>.
 </p>
 
@@ -120,27 +96,46 @@ lessons: ['R', 'Python', 'SQL', 'Git', 'Bash', 'VM']
 
 <div class="row-fluid">
   <div class="span6">
-    <h3>Day 1</h3>
+    <h3>Day 1, Monday 9th November</h3>
     <table class="table table-striped">
-      <tr> <td>09:00</td> <td>Automating tasks with the Unix shell</td> </tr>
+      <tr> <td>9:00</td> <td>Introduction and learning objectives</td> </tr>
       <tr> <td><em>10:30</em></td> <td><em>Coffee break</em></td> </tr>
+      <tr> <td>11:00</td> <td>Introduction to the requirements gathering task</td> </tr>
       <tr> <td>12:00</td> <td>Lunch break</td> </tr>
-      <tr> <td>13:00</td> <td>Building programs with Python</td> </tr>
-      <tr> <td><em>14:30</em></td> <td><em>Coffee break</em></td> </tr>
-      <tr> <td>16:00</td> <td>Wrap-up</td> </tr>
+      <tr> <td>13:00</td> <td>Working effectively with command line - part 1</td> </tr>
+      <tr> <td><em>15:00</em></td> <td><em>Coffee break</em></td> </tr>
+      <tr> <td>15:30</td> <td>Working effectively with command line - part 2</td> </tr>
+      <tr> <td>16:45</td> <td>Wrap-up</td> </tr>
     </table>
   </div>
   <div class="span6">
-    <h3>Day 2</h3>
+    <h3>Day 2, Tuesday 10th November</h3>
     <table class="table table-striped">
-      <tr> <td>09:00</td> <td>Version control with Git</td> </tr>
+      <tr> <td>09:00</td> <td>Version control with Git - part 1</td> </tr>
       <tr> <td><em>10:30</em></td> <td><em>Coffee break</em></td> </tr>
+      <tr> <td>11:00</td> <td>Version control with Git - part 2</td> </tr>
       <tr> <td>12:00</td> <td>Lunch break</td> </tr>
-      <tr> <td>13:00</td> <td>Managing data with SQL</td> </tr>
-      <tr> <td><em>14:30</em></td> <td><em>Coffee break</em></td> </tr>
-      <tr> <td>16:00</td> <td>Wrap-up</td> </tr>
+      <tr> <td>13:00</td> <td>Collaborating in software development using Git and GitHub</td> </tr>
+      <tr> <td>14:00</td> <td>Building programs with Python - part 1</td> </tr>
+      <tr> <td><em>15:00</em></td> <td><em>Coffee break</em></td> </tr>
+      <tr> <td>15:30</td> <td>Building programs with Python - part 2</td> </tr>
+      <tr> <td>16:45</td> <td>Wrap-up</td> </tr>
     </table>
   </div>
+ <div class="span6">
+    <h3>Day 3, Wednesday 11th November</h3>
+    <table class="table table-striped">
+      <tr> <td>09:00</td> <td>Building programs with Python - part 3</td> </tr>
+      <tr> <td><em>10:30</em></td> <td><em>Coffee break</em></td> </tr>
+      <tr> <td>11:00</td> <td>Using scientific libraries for Python</td> </tr>
+      <tr> <td>12:00</td> <td>Lunch break</td> </tr>
+      <tr> <td>13:00</td> <td>Testing your Python code</td> </tr>
+      <tr> <td><em>15:00</em></td> <td><em>Coffee break</em></td> </tr>
+      <tr> <td>15:30</td> <td>Working effectively with IPython Notebook</td> </tr>
+      <tr> <td>16:45</td> <td>Wrap-up</td> </tr>
+    </table>
+  </div>
+
 </div>
 
 <hr/>
@@ -204,20 +199,7 @@ lessons: ['R', 'Python', 'SQL', 'Git', 'Bash', 'VM']
       <li><a href="novice/ref/02-git.html">Reference...</a></li>
     </ul>
   </div>
-  <div class="span6">
-    <h3>Managing Data with SQL</h3>
-    <ul>
-      <li>Reading and sorting data</li>
-      <li>Filtering with <code>where</code></li>
-      <li>Calculating new values on the fly</li>
-      <li>Handling missing values</li>
-      <li>Combining values using aggregation</li>
-      <li>Combining information from multiple tables using <code>join</code></li>
-      <li>Creating, modifying, and deleting data</li>
-      <li>Programming with databases</li>
-      <li><a href="novice/ref/04-sql.html">Reference...</a></li>
-    </ul>
-  </div>
+
 </div>
 
 <hr/>
@@ -230,11 +212,7 @@ lessons: ['R', 'Python', 'SQL', 'Git', 'Bash', 'VM']
 <h2>Setup</h2>
 
 <p>
-  To participate in a Software Carpentry workshop, 
-  you will need working copies of the software described below.
-  Please make sure to install everything
-  (or at least to download the installers)
-  <em>before</em> the start of your workshop.
+  The participants will be working on the Software Carpentry Virtual Machines setup up on the computers at the university lab.
 </p>
 
 {% include setup.html %}
