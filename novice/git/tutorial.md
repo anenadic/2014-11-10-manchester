@@ -1,11 +1,10 @@
---- 
-layout: lesson 
+---
+layout: lesson
 root: ../..
-title: Version Control
+title: Introducing Version Control
 ---
 
-Tracking your changes with a local repository
----------------------------------------------
+
 
 Version control is centred round the notion of a *repository* which
 holds your directories and files. We'll start by looking at a local
