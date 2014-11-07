@@ -3,7 +3,7 @@ layout: lesson
 root: ../..
 ---
 
-## Command-Line Programs
+## Running Python Programs From Command-Line
 
 
 The IPython Notebook and other interactive tools are great for prototyping code and exploring data,
