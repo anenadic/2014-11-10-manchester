@@ -69,6 +69,7 @@ grid height: 3
 grid lines on: True
 </code></pre></div>
 
+### RGB Model
 
 The obvious thing to do with a grid like this is color in its cells,
 but in order to do that,
@@ -77,7 +78,18 @@ The most common schemes are [RGB](../../gloss.html#rgb),
 which is short for "red, green, blue".
 RGB is an [additive color model](../../gloss.html#additive-color-model):
 every shade is some combination of red, green, and blue intensities.
-We can think of these three values as being the axes in a cube:
+Intensities are represented as integers between 0 and 255. So, for example,
+red is (255, 0, 0), green is (0, 255, 0), and blue is (0, 0, 255).
+
+<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/2/28/RGB_illumination.jpg/220px-RGB_illumination.jpg" alt="RGB Color Model" />
+
+Adding red to green yields yellow (255, 255, 0); adding red
+to blue yields magenta (255, 0, 255); adding green to blue yields cyan
+(0, 255, 255); adding all
+three primary colors together in equal intensities yields white (255, 255, 255).
+Black colour is represented as (0, 0, 0) - i.e. as lack of any colour.
+
+We can also think of these three values as being the axes in a cube:
 
 <img src="img/color-cube.png" alt="RGB Color Cube" />
 
@@ -206,9 +218,9 @@ and looks like this:
 
 <pre class="in"><code>num = 37
 if num &gt; 100:
-    print &#39;greater&#39;
+    print &#39;greater than 100&#39;
 else:
-    print &#39;not greater&#39;
+    print &#39;not greater than 100&#39;
 print &#39;done&#39;</code></pre>
 
 <div class="out"><pre class='out'><code>not greater
