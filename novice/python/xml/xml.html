@@ -1,0 +1,956 @@
+---
+layout: v3_slideshow
+title: XML
+prev: v3/binary.html
+uplink: v3/index.html
+next: v3/gui.html
+---
+<div class="topic">
+  <h2>1) Introduction</h2>
+  <ul>
+  <li>XML is becoming the standard way to store everything from web pages to astronomical data
+    <ul>
+    <li>Bewildering variety of tools for dealing with it</li>
+    <li>And more appearing every day</li>
+    </ul>
+  </li>
+  <li>This lecture describes how to process and modify XML
+    <ul>
+    <li>Warning: the standards are more complex than they should have been</li>
+    </ul>
+  </li>
+  <li>Reading:
+    <ul>
+    <li><a href="bib.html#bib:castro-html" target="bib:castro-html">[Castro 2002]</a> if all you care about is HTML</li>
+    <li><a href="bib.html#bib:castro-xml" target="bib:castro-xml">[Castro 2000]</a> if you want to know more about XML</li>
+    <li><a href="bib.html#bib:harold-effective-xml" target="bib:harold-effective-xml">[Harold 2004]</a> if you want to become an expert</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>2) You Can Skip This Lecture If...</h2>
+  <ul>
+  <li>You know what the difference is between HTML and XML</li>
+  <li>You know what elements, attributes, and entities are</li>
+  <li>You know how to create a hyperlink in an HTML page</li>
+  <li>You know what DOM is</li>
+  <li>You know how to search an XML document</li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>3) In the Beginning</h2>
+  <ul>
+  <li>1969-1986: Standard Generalized Markup Language (SGML)
+    <ul>
+    <li>Developed by Charles Goldfarb and others at IBM</li>
+    <li>A way of adding information to medical and legal documents so that computers could process them</li>
+    <li>Very complex specification (over 500 pages)</li>
+    </ul>
+  </li>
+  <li>1989: Tim Berners-Lee creates HyperText Markup Language (HTML) for the World Wide Web
+    <ul>
+    <li>Much (much) simpler than SGML</li>
+    <li>Anyone could write it, so everyone did</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>4) The Modern Era</h2>
+  <ul>
+  <li>Problem: HTML had a small, fixed set of tags
+    <ul>
+    <li>Everyone wanted to add new ones</li>
+    <li>Solution: create a standard way to define a set of tags, and the relationships between them</li>
+    </ul>
+  </li>
+  <li>First version of <a href="{{page.root}}/book/glossary.html#xml" target="glo:xml">XML</a> standardized in 1998
+    <ul>
+    <li>A set of rules for defining markup languages</li>
+    <li>Much more complex than HTML, but still simpler than SGML</li>
+    </ul>
+  </li>
+  <li>New version of HTML called XHTML was also defined
+    <ul>
+    <li>Like HTML, but obeys all XML rules</li>
+    <li>Still a lot of non-XML compliant HTML out there</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>5) Formatting Rules</h2>
+  <ul>
+  <li>A basic XML <a href="{{page.root}}/book/glossary.html#document" target="glo:document">document</a> contains <a href="{{page.root}}/book/glossary.html#element" target="glo:element">elements</a> and <a href="{{page.root}}/book/glossary.html#text" target="glo:text">text</a>
+    <ul>
+    <li>Full spec allows for external entity references, processing instructions, and other fun</li>
+    </ul>
+  </li>
+  <li>Elements are shown using <a href="{{page.root}}/book/glossary.html#tag-xml" target="glo:tag-xml">tags</a>
+    <ul>
+    <li>Must be enclosed in angle brackets <code>&lt;&gt;</code></li>
+    <li>Full form: <code>tagname</code>...</li>
+    <li>Short form (if the element doesn't contain anything): <code>tagname</code></li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>6) Document Structure</h2>
+  <ul>
+  <li>Elements must be properly nested
+    <ul>
+    <li>If Y starts inside X, Y must end before X ends</li>
+    <li>So <code>&lt;X&gt;...&lt;Y&gt;...&lt;/Y&gt;&lt;/X&gt;</code> is legal...</li>
+    <li>...but <code>&lt;X&gt;...&lt;Y&gt;...&lt;/X&gt;&lt;/Y&gt;</code> is not</li>
+    </ul>
+  </li>
+  <li>Every document must have a single root element
+    <ul>
+    <li>I.e., a single element must enclose everything else</li>
+    </ul>
+  </li>
+  <li>Specific XML dialects may restrict which elements can appear inside which others
+    <ul>
+    <li>XHTML is very liberal</li>
+    <li>MathML (Mathematical Markup Language) is stricter</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>7) Text</h2>
+  <ul>
+  <li>Text is normal printable text</li>
+  <li>Must use escape sequences to represent <code>&lt;</code> and <code>&gt;</code>
+    <ul>
+    <li>In XML, written <code>&amp;name;</code></li>
+      <div id="tbl:xml-escapes">
+        <table>
+          <tr>
+            <th>Sequence</th>
+            <th>Character</th>
+          </tr>
+          <tr>
+            <td><code>&amp;lt;</code></td>
+            <td><code>&lt;</code></td>
+          </tr>
+          <tr>
+            <td><code>&amp;gt;</code></td>
+            <td><code>&gt;</code></td>
+          </tr>
+          <tr>
+            <td><code>&amp;quot;</code></td>
+            <td><code>&quot;</code></td>
+          </tr>
+          <tr>
+            <td><code>&amp;amp;</code></td>
+            <td><code>&amp;</code></td>
+          </tr>
+        </table>
+        <p>Table 21.1: XML Character Escapes</p>
+      </div>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>8) XHTML</h2>
+  <ul>
+  <li>Most common use of XML is still XHTML (the XML version of hypertext)</li>
+  <li>Basic tags:</li>
+    <div id="tbl:xml-html-tags">
+      <table>
+        <tr>
+          <th>Tag</th>
+          <th>Usage</th>
+        </tr>
+        <tr>
+          <td><code>&lt;html&gt;</code></td>
+          <td>Root element of entire HTML document.</td>
+        </tr>
+        <tr>
+          <td><code>&lt;body&gt;</code></td>
+          <td>Body of page (i.e., visible content).</td>
+        </tr>
+        <tr>
+          <td><code>&lt;h1&gt;</code></td>
+          <td>Top-level heading.  Use <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>, etc. for second- and third-level headings.</td>
+        </tr>
+        <tr>
+          <td><code>&lt;p&gt;</code></td>
+          <td>Paragraph.</td>
+        </tr>
+        <tr>
+          <td><code>&lt;em&gt;</code></td>
+          <td>Emphasized text; browser or editor will usually display it in italics.</td>
+        </tr>
+        <tr>
+          <td><code>&lt;address&gt;</code></td>
+          <td>Address of document author (also usually displayed in italics).</td>
+        </tr>
+      </table>
+      <p>Table 21.2: Basic XHTML Tags</p>
+    </div>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>9) Sample XHTML Page</h2>
+<pre file="xml/simple-page.xml">&lt;html&gt;
+&lt;body&gt;
+&lt;h1&gt;Software Carpentry&lt;/h1&gt;
+
+&lt;p&gt;This course will introduce &lt;em&gt;essential software development skills&lt;/em&gt;,
+and show where and how they should be applied.&lt;/p&gt;
+
+&lt;address&gt;Greg Wilson ({{site.contact}})&lt;/address&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+  <figure id="fig:xml-simple-page-firefox">
+    <img alt="Simple Page Rendered by Firefox" src="xml/simple-page-firefox.png"/>
+    <p>Figure 21.1: Simple Page Rendered by Firefox</p>
+  </figure>
+</div>
+
+<div class="topic">
+  <h2>10) Critique of HTML/XHTML</h2>
+  <ul>
+  <li>HTML and XHTML mix semantics and display
+    <ul>
+    <li><code>h1</code> (level-1 heading) is semantic (meaning)</li>
+    <li><code>i</code> (italics) is display (formatting)</li>
+    </ul>
+  </li>
+  <li>Now generally considered a bad thing
+    <ul>
+    <li>Modern HTML/XHTML documents contain semantic tags only</li>
+    <li>Control display using <a href="{{page.root}}/book/glossary.html#css" target="glo:css">Cascading Style Sheets (CSS)</a>
+      <ul>
+      <li>Out of the scope of this course</li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>11) Attributes</h2>
+  <ul>
+  <li>Elements can be customized by giving them <a href="{{page.root}}/book/glossary.html#attribute" target="glo:attribute">attributes</a>
+    <ul>
+    <li>Enclosed in the opening tag</li>
+    <li><code>&lt;h1 align=&quot;center&quot;&gt;A Centered Heading&lt;/h1&gt;</code></li>
+    <li><code>&lt;p class=&quot;disclaimer&quot;&gt;This planet provided as-is.&lt;/p&gt;</code></li>
+    </ul>
+  </li>
+  <li>An attribute name may appear at most once in any element
+    <ul>
+    <li>Like keys in a dictionary</li>
+    <li>So <code>&lt;p align=&quot;left&quot; align=&quot;right&quot;&gt;...&lt;/p&gt;</code> is illegal</li>
+    </ul>
+  </li>
+  <li>Values <em>must</em> be quoted
+    <ul>
+    <li>Old-style browsers accepted <code>&lt;p align=center&gt;...&lt;p&gt;</code>, but modern parsers will reject it</li>
+    <li>Must use escape sequences for angle brackets, quotes, etc. inside values</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>12) Attributes Vs. Elements</h2>
+  <ul>
+  <li>Use attributes when:
+    <ul>
+    <li>Each value can occur at most once for any element</li>
+    <li>The order of the values doesn't matter</li>
+    <li>Those values have no internal structure</li>
+    </ul>
+  </li>
+  <li>In all other cases, use nested elements
+    <ul>
+    <li>If you have to parse an attribute's value to figure out what it means, use an element instead</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>13) More XHTML Tags</h2>
+  <ul>
+  <li>Well-written HTML pages have a <code>head</code> element as well as a <code>body</code>
+    <ul>
+    <li>Contains metadata about the page</li>
+    </ul>
+  </li>
+  <li>Well-written pages also use comments (just like code)
+    <ul>
+    <li>Introduce with <code>&lt;!--</code>, and end with <code>--&gt;</code></li>
+    <li>Unfortunately, comments cannot be nested</li>
+    </ul>
+  </li>
+  </ul>
+  <pre file="xml/comments.xml">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Comments Page&lt;/title&gt;
+  &lt;meta name=&quot;author&quot; content=&quot;aturing&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- House style puts all titles in italics --&gt;
+&lt;h1&gt;&lt;em&gt;Welcome to the Comments Page&lt;/em&gt;&lt;/h1&gt;
+
+&lt;!-- Update this paragraph to describe the forum. --&gt;
+&lt;p&gt;Welcome to the Comments Forum.&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+
+<div class="topic">
+  <h2>14) Lists and Tables</h2>
+  <ul>
+  <li>Use <code>ul</code> for an unordered (bulleted) list, and <code>ol</code> for an ordered (numbered) one
+    <ul>
+    <li>Each list item is wrapped in <code>li</code></li>
+    </ul>
+  </li>
+  <li>Use <code>table</code> for tables
+    <ul>
+    <li>Each row is wrapped in <code>tr</code> (for &quot;table row&quot;)</li>
+    <li>Within each row, column items are wrapped in <code>td</code> (for &quot;table data&quot;)</li>
+    <li>Note: tables are often used to force multi-column layout, as well as for tabular data</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>15) Example</h2>
+  <pre file="xml/list-table.xml">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Lists and Tables&lt;/title&gt;
+  &lt;meta name=&quot;svn&quot; content=&quot;$Id: xml.swc 54 2005-04-13 13:29:28Z gvwilson $&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;table cellpadding=&quot;3&quot; border=&quot;1&quot;&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot;&gt;&lt;em&gt;Unordered List&lt;/em&gt;&lt;/td&gt;
+    &lt;td align=&quot;center&quot;&gt;&lt;em&gt;Ordered List&lt;/em&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;left&quot; valign=&quot;top&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Hydrogen&lt;/li&gt;
+        &lt;li&gt;Lithium&lt;/li&gt;
+        &lt;li&gt;Sodium&lt;/li&gt;
+        &lt;li&gt;Potassium&lt;/li&gt;
+        &lt;li&gt;Rubidium&lt;/li&gt;
+        &lt;li&gt;Cesium&lt;/li&gt;
+        &lt;li&gt;Francium&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/td&gt;
+    &lt;td align=&quot;left&quot; valign=&quot;top&quot;&gt;
+      &lt;ol&gt;
+        &lt;li&gt;Helium&lt;/li&gt;
+        &lt;li&gt;Neon&lt;/li&gt;
+        &lt;li&gt;Argon&lt;/li&gt;
+        &lt;li&gt;Krypton&lt;/li&gt;
+        &lt;li&gt;Xenon&lt;/li&gt;
+        &lt;li&gt;Radon&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+  <figure id="fig:xml-list-table-firefox">
+    <img alt="Lists and Tables" src="xml/list-table-firefox.png"/>
+    <p>Figure 21.2: Lists and Tables</p>
+  </figure>
+  <ul>
+  <li>Note how Subversion keywords have been put in <code>meta</code> elements in document head
+    <ul>
+    <li>Automatically updated each time the document is committed to version control</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>16) Images</h2>
+  <ul>
+  <li>How to put an image in a page?
+    <ul>
+    <li>XML documents can only contain text, so you can't store an image or audio clip directly in a page</li>
+    </ul>
+  </li>
+  <li>Usual solution is to store a reference to the external file using the <code>img</code> tag
+    <ul>
+    <li>The <code>src</code> argument specifies where to find the image file</li>
+    </ul>
+  </li>
+  </ul>
+  <pre file="xml/image.xml">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Images&lt;/title&gt;
+  &lt;meta name=&quot;svn&quot; content=&quot;$Id: xml.swc 54 2005-04-13 13:29:28Z gvwilson $&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;Our Logo&lt;/h1&gt;
+
+&lt;img src=&quot;../../../img/sc_powered.jpg&quot; alt=&quot;[Powered by Software Carpentry]&quot;/&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+  <figure id="fig:xml-image">
+    <img alt="Images in Pages" src="xml/image.png"/>
+    <p>Figure 21.3: Images in Pages</p>
+  </figure>
+  <ul>
+  <li>Always use the <code>alt</code> attribute to specify alternative text
+    <ul>
+    <li>Screen readers for people with visual handicaps use this instead of the image</li>
+    <li>And it's good documentation for search engines</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>17) Links</h2>
+  <ul>
+  <li>Links to other pages is what makes it &quot;hypertext&quot;</li>
+  <li>Use the <code>a</code> element to create a link
+    <ul>
+    <li>The text inside the element is displayed and (usually) underlined for clicking</li>
+    <li>The <code>href</code> attribute specifies what the link is pointing at</li>
+    <li>Both local filenames and URLs are supported</li>
+    </ul>
+  </li>
+  </ul>
+  <pre file="xml/links.xml">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Links&lt;/title&gt;
+  &lt;meta name=&quot;svn&quot; content=&quot;$Id: xml.swc 54 2005-04-13 13:29:28Z gvwilson $&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;A Few of My Favorite Places&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.google.com&quot;&gt;Google&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.python.org&quot;&gt;Python&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.nature.com/index.html&quot;&gt;Nature Online&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Examples in this lecture:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;comments.html&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;image.html&quot;&gt;Images&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;list_table.html&quot;&gt;Lists and Tables&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+  <figure id="fig:xml-links">
+    <img alt="Links in Pages" src="xml/links.png"/>
+    <p>Figure 21.4: Links in Pages</p>
+  </figure>
+</div>
+
+<div class="topic">
+  <h2>18) The Document Object Model</h2>
+  <ul>
+  <li>The <a href="{{page.root}}/book/glossary.html#document-object-model" target="glo:document-object-model">Document Object Model (DOM)</a> is a cross-language standard for representing XML documents as trees
+    <ul>
+    <li>One node for each element, attribute, or text</li>
+    </ul>
+  </li>
+  <li>Pro:
+    <ul>
+    <li>Much easier to manipulate trees than strings</li>
+    <li>Same basic model in many different languages (which lowers the learning cost)</li>
+    </ul>
+  </li>
+  <li>Con:
+    <ul>
+    <li>Needs a lot of memory for large documents</li>
+    <li>Generic standard doesn't take advantage of the more advanced features of some languages</li>
+    </ul>
+  </li>
+  <li>Python's standard library includes a simple implementation of DOM called <code>minidom</code>
+    <ul>
+    <li>Fast, sturdy, and well documented...</li>
+    <li>...if you understand all the terminology, and know more or less what you're looking for</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>19) The Basics</h2>
+  <ul>
+  <li>Every DOM tree has a single root representing the document as a whole
+    <ul>
+    <li>Doesn't correspond to anything that's actually <em>in</em> the document</li>
+    </ul>
+  </li>
+  <li>This element has a single child, which is the root node of the document</li>
+  <li>It, and other element nodes, may have three types of children:
+    <ul>
+    <li>Other elements</li>
+    <li>Text nodes</li>
+    <li>Attribute nodes</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>20) DOM Tree Example</h2>
+  <pre file="xml/dom-tree.xml">&lt;root&gt;
+  &lt;first&gt;element&lt;/first&gt;
+  &lt;second attr=&quot;value&quot;&gt;element&lt;/second&gt;
+  &lt;third-element/&gt;
+&lt;/root&gt;</pre>
+  <figure id="fig:xml-dom-tree">
+    <img alt="A DOM Tree" src="xml/dom-tree.png"/>
+    <p>Figure 21.5: A DOM Tree</p>
+  </figure>
+</div>
+
+<div class="topic">
+  <h2>21) More On Tree Structure</h2>
+  <ul>
+  <li>Every node keeps track of what its parent is
+    <ul>
+    <li>Allows programs to search up the tree, as well as down</li>
+    </ul>
+  </li>
+  <li>Note: it's easy to forget that text and attributes are stored in nodes of their own
+    <ul>
+    <li>Other Python libraries like <a href="bib.html#bib:elementtree" target="bib:elementtree">[ElementTree]</a> use dictionaries instead</li>
+    <li>Pro: makes simple things a little simpler</li>
+    <li>Con: not (yet) part of the standard library</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>22) Creating a Tree</h2>
+  <ul>
+  <li>Usual way to create a DOM tree is to parse a file</li>
+  </ul>
+  <pre file="xml/mercury.xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;planet name=&quot;Mercury&quot;&gt;
+  &lt;period units=&quot;days&quot;&gt;87.97&lt;/period&gt;
+&lt;/planet&gt;
+</pre>
+  <pre file="xml/create-mercury.py">import xml.dom.minidom
+doc = xml.dom.minidom.parse('mercury.xml')
+print doc.toxml('utf-8')
+</pre>
+  <pre class="out" file="xml/create-mercury.out">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;planet name=&quot;Mercury&quot;&gt;
+  &lt;period units=&quot;days&quot;&gt;87.97&lt;/period&gt;
+&lt;/planet&gt;
+</pre>
+</div>
+
+<div class="topic">
+  <h2>23) Converting to Text</h2>
+  <ul>
+  <li>The <code>toxml</code> method can be called on the document, or on any element node, to create text</li>
+  <li>DOM trees always store text as <a href="{{page.root}}/book/glossary.html#unicode" target="glo:unicode">Unicode</a>, so when you're converting the tree to text, you must tell the library how to represent characters
+    <ul>
+    <li>Example above uses <a href="{{page.root}}/book/glossary.html#utf-8" target="glo:utf-8">UTF-8</a>, which is the best default choice</li>
+    <li>See <a href="bib.html#bib:spolsky-unicode" target="bib:spolsky-unicode">[Spolsky Unicode]</a> for the details</li>
+    </ul>
+  </li>
+  <li>This means that strings taken from XML documents are Unicode, not ASCII</li>
+  </ul>
+  <pre file="xml/unicode.py">import xml.dom.minidom
+
+my_xml = '''&lt;name&gt;Donald Knuth&lt;/name&gt;'''
+my_doc = xml.dom.minidom.parseString(my_xml)
+name = my_doc.documentElement.firstChild.data
+print 'name is:', name
+print 'but name in full is:', repr(name)
+</pre>
+  <pre class="out" file="xml/unicode.out">name is: Donald Knuth
+but name in full is: u'Donald Knuth'
+</pre>
+  <ul>
+  <li>Note the <code>u</code> in front of the string the second time it is printed
+    <ul>
+    <li>A simple <code>print</code> statement converts the Unicode string to ASCII for display</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>24) Other Ways To Create Documents</h2>
+  <ul>
+  <li>Can also create a tree by parsing a string</li>
+  </ul>
+  <pre file="xml/create-venus.py">import xml.dom.minidom
+
+src = '''&lt;planet name=&quot;Venus&quot;&gt;
+  &lt;period units=&quot;days&quot;&gt;224.7&lt;/period&gt;
+&lt;/planet&gt;'''
+
+doc = xml.dom.minidom.parseString(src)
+print doc.toxml('utf-8')
+</pre>
+  <pre class="out" file="xml/create-venus.out">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;planet name=&quot;Venus&quot;&gt;
+  &lt;period units=&quot;days&quot;&gt;224.7&lt;/period&gt;
+&lt;/planet&gt;
+</pre>
+  <ul>
+  <li>Or by building a tree by hand</li>
+  </ul>
+  <pre file="xml/create-mars.py">import xml.dom.minidom
+
+impl = xml.dom.minidom.getDOMImplementation()
+
+doc = impl.createDocument(None, 'planet', None)
+root = doc.documentElement
+root.setAttribute('name', 'Mars')
+
+period = doc.createElement('period')
+root.appendChild(period)
+
+text = doc.createTextNode('686.98')
+period.appendChild(text)
+
+print doc.toxml('utf-8')
+</pre>
+  <pre class="out" file="xml/create-mars.out">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;planet name=&quot;Mars&quot;&gt;&lt;period&gt;686.98&lt;/period&gt;&lt;/planet&gt;
+</pre>
+  <ul>
+  <li>Notice that the output of the preceding example wasn't nicely indented
+    <ul>
+    <li>Because we didn't create text nodes containing carriage returns and blanks</li>
+    <li>Most machine-generated XML doesn't</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>25) The Details</h2>
+  <ul>
+  <li><code>xml.dom.minidom</code> is really just a wrapper around other platform-specific XML libraries
+    <ul>
+    <li>Have to reach inside it and get the underlying implementation object to create the <code>document</code> node</li>
+    <li>That node then knows how to create other elements in the document</li>
+    <li>Middle argument to <code>createDocument</code> specifies the type of the document's root node</li>
+    <li>Documentation explains what the first and third arguments to <code>createDocument</code> are</li>
+    </ul>
+  </li>
+  <li>Add new nodes to existing ones by:
+    <ul>
+    <li>Asking the document to create the node</li>
+    <li>Appending it to a node that's already part of the tree</li>
+    </ul>
+  </li>
+  <li>Set attributes of element nodes using <code>setAttribute(attributeName, newValue)</code>
+    <ul>
+    <li>Remember, all attribute values are strings</li>
+    <li>If you want to store an integer or a Boolean, you have to convert it yourself</li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>26) Finding Nodes</h2>
+  <ul>
+  <li>Often want to do things to all elements of a particular type
+    <ul>
+    <li>E.g., find all <code>experimenter</code> nodes, extract names, and print a sorted list</li>
+    </ul>
+  </li>
+  <li>Use the <code>getElementsByTagName</code> method to do this
+    <ul>
+    <li>Returns a list of all the descendants of a node with the specified tag</li>
+    </ul>
+  </li>
+  </ul>
+  <pre file="xml/get-by-tag.py">import xml.dom.minidom
+
+src = '''&lt;heavenly_bodies&gt;
+  &lt;planet name=&quot;Mercury&quot;/&gt;
+  &lt;planet name=&quot;Venus&quot;/&gt;
+  &lt;planet name=&quot;Earth&quot;/&gt;
+  &lt;moon name=&quot;Moon&quot;/&gt;
+  &lt;planet name=&quot;Mars&quot;/&gt;
+  &lt;moon name=&quot;Phobos&quot;/&gt;
+  &lt;moon name=&quot;Deimos&quot;/&gt;
+&lt;/heavenly_bodies&gt;'''
+
+doc = xml.dom.minidom.parseString(src)
+for node in doc.getElementsByTagName('moon'):
+    print node.getAttribute('name')
+
+</pre>
+  <pre class="out" file="xml/get-by-tag.out">Moon
+Phobos
+Deimos
+</pre>
+  <ul>
+  <li>Question: what happens if you add or delete nodes while looping over this list?</li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>27) Walking a Tree</h2>
+  <ul>
+  <li>Often want to visit each node in the tree
+    <ul>
+    <li>E.g., print an outline of the document showing element nesting</li>
+    </ul>
+  </li>
+  <li>Node's type is stored in a member variable called <code>nodeType</code>
+    <ul>
+    <li><code>ELEMENT_NODE</code>, <code>TEXT_NODE</code>, <code>ATTRIBUTE_NODE</code>, <code>DOCUMENT_NODE</code></li>
+    </ul>
+  </li>
+  <li>If a node is an element, its children are stored in a read-only list called <code>childNodes</code></li>
+  <li>If a node is a text node, the actual text is in the member <code>data</code></li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>28) Recursive Tree Walker</h2>
+  <pre file="xml/recurse.py">import xml.dom.minidom
+
+src = '''&lt;solarsystem&gt;
+&lt;planet name=&quot;Mercury&quot;&gt;&lt;period units=&quot;days&quot;&gt;87.97&lt;/period&gt;&lt;/planet&gt;
+&lt;planet name=&quot;Venus&quot;&gt;&lt;period units=&quot;days&quot;&gt;224.7&lt;/period&gt;&lt;/planet&gt;
+&lt;planet name=&quot;Earth&quot;&gt;&lt;period units=&quot;days&quot;&gt;365.26&lt;/period&gt;&lt;/planet&gt;
+&lt;/solarsystem&gt;
+'''
+
+def walkTree(currentNode, indent=0):
+    spaces = ' ' * indent
+    if currentNode.nodeType == currentNode.TEXT_NODE:
+        print spaces + 'TEXT' + ' (%d)' % len(currentNode.data)
+    else:
+        print spaces + currentNode.tagName
+        for child in currentNode.childNodes:
+            walkTree(child, indent+1)
+
+doc = xml.dom.minidom.parseString(src)
+walkTree(doc.documentElement)
+</pre>
+  <pre class="out" file="xml/recurse.out">solarsystem
+ TEXT (1)
+ planet
+  period
+   TEXT (5)
+ TEXT (1)
+ planet
+  period
+   TEXT (5)
+ TEXT (1)
+ planet
+  period
+   TEXT (6)
+ TEXT (1)
+</pre>
+  <ul>
+  <li>Traversing a tree like this is just one of many recurring patterns in object-oriented programming
+    <ul>
+    <li>We'll discuss them briefly in <a href="summary.html" target="lec:summary">Summary</a></li>
+    </ul>
+  </li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>29) Modifying the Tree</h2>
+  <ul>
+  <li>Modifying trees in place is a little bit tricky
+    <ul>
+    <li>Helps to draw lots of pictures</li>
+    </ul>
+  </li>
+  <li>Example: want to <em>emphasize</em> the first word of each paragraph
+    <ul>
+    <li>Get the text node below the paragraph</li>
+    <li>Take off the first word</li>
+    <li>Insert a new <code>em</code> element whose only child is a text node containing that word</li>
+    </ul>
+  </li>
+  </ul>
+  <figure id="fig:xml-modify-tree">
+    <img alt="Modifying the DOM Tree" src="xml/modify-tree.png"/>
+    <p>Figure 21.6: Modifying the DOM Tree</p>
+  </figure>
+</div>
+
+<div class="topic">
+  <h2>30) Complications</h2>
+  <ul>
+  <li>But what if the first child of the paragraph already has some markup around it?
+    <ul>
+    <li>E.g., what if the paragraph starts with a link?</li>
+    </ul>
+  </li>
+  <li>Could just wrap the first child with <code>em</code>
+    <ul>
+    <li>But if (for example) the link contains several words, this will look wrong</li>
+    </ul>
+  </li>
+  <li>We'll ignore this problem for now</li>
+  </ul>
+</div>
+
+<div class="topic">
+  <h2>31) Solution</h2>
+  <ul>
+  <li>Step 1: find all the paragraphs using <code>getElementsByTagName</code>, and iterate over them</li>
+  </ul>
+  <pre file="xml/modify-tree.py" section="emphasize">def emphasize(doc):
+    paragraphs = doc.getElementsByTagName('p')
+    for para in paragraphs:
+        first = para.firstChild
+        if first.nodeType == first.TEXT_NODE:
+            emphasizeText(doc, para, first)
+</pre>
+  <ul>
+  <li>Step 2: break the paragraph text into pieces, and handle each piece in turn
+    <ul>
+    <li>Create a new node for each piece</li>
+    <li>Push it onto the front of the paragraph's child list</li>
+    <li>Once they've all been handled, get rid of the original text node</li>
+    </ul>
+  </li>
+  </ul>
+  <pre file="xml/modify-tree.py" section="func">def emphasizeText(doc, para, textNode):
+
+    # Look for optional spaces, a word, and the rest of the paragraph.
+    m = re.match(r'^(\s*)(\S*)\b(.*)$', str(textNode.data))
+    if not m:
+        return
+    leadingSpace, firstWord, restOfText = m.groups()
+    if not firstWord:
+        return
+
+    # If there's text after the first word, re-save it.
+    if restOfText:
+        restOfText = doc.createTextNode(restOfText)
+        para.insertBefore(restOfText, para.firstChild)
+
+    # Emphasize the first word.
+    emph = doc.createElement('em')
+    emph.appendChild(doc.createTextNode(firstWord))
+    para.insertBefore(emph, para.firstChild)
+
+    # If there's leading space, re-save it.
+    if leadingSpace:
+        leadingSpace = doc.createTextNode(leadingSpace)
+        para.insertBefore(leadingSpace, para.firstChild)
+
+    # Get rid of the original text.
+    para.removeChild(textNode)
+</pre>
+</div>
+
+<div class="topic">
+  <h2>32) Not Finished Yet</h2>
+  <ul>
+  <li>Part 3: test it
+    <ul>
+    <li>Yes, it really is part of the program</li>
+    </ul>
+  </li>
+  </ul>
+  <pre file="xml/modify-tree.py" section="test">if __name__ == '__main__':
+
+    src = '''&lt;html&gt;&lt;body&gt;
+&lt;p&gt;First paragraph.&lt;/p&gt;
+&lt;p&gt;Second paragraph contains &lt;em&gt;emphasis&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Third paragraph.&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;'''
+
+    doc = xml.dom.minidom.parseString(src)
+    emphasize(doc)
+    print doc.toxml('utf-8')
+</pre>
+  <pre class="out" file="xml/modify-tree.out">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;html&gt;&lt;body&gt;
+&lt;p&gt;&lt;em&gt;First&lt;/em&gt; paragraph.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Second&lt;/em&gt; paragraph contains &lt;em&gt;emphasis&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Third&lt;/em&gt; paragraph.&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;
+</pre>
+</div>
+
+<div class="topic">
+  <h2>33) Summary</h2>
+  <ul>
+  <li>There's a lot of hype in hypertext
+    <ul>
+    <li>Haven't yet heard anyone claim that XML will cure the common cold, but I'm sure it's been said</li>
+    </ul>
+  </li>
+  <li>Pros:
+    <ul>
+    <li>One set of rules for people to learn</li>
+    <li>Never have to write a parser again
+      <ul>
+      <li>At least, the low-level syntactic bits---still need to figure out what all those tags <em>mean</em></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li>Cons:
+    <ul>
+    <li>Raw XML is hard to read
+      <ul>
+      <li>Particularly if it has been generated by a machine</li>
+      </ul>
+    </li>
+    <li>A lot of data isn't actually trees
+      <ul>
+      <li>When storing a 2D matrix or a table, you have to organize data by row or by column...</li>
+      <li>...either of which makes the other hard to access</li>
+      </ul>
+    </li>
+    <li>There are a lot of complications and subtleties
+      <ul>
+      <li>Most applications ignore most of them</li>
+      <li>Which means that they fail (usually badly) when confronted with something outside the subset they understand</li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li>Like Inglish speling, it's here to stay</li>
+  </ul>
+</div>

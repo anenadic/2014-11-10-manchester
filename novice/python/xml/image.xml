@@ -1,0 +1,13 @@
+<html>
+<head>
+  <title>Images</title>
+  <meta name="svn" content="$Id: xml.swc 54 2005-04-13 13:29:28Z gvwilson $"/>
+</head>
+<body>
+
+<h1>Our Logo</h1>
+
+<img src="../../../img/sc_powered.jpg" alt="[Powered by Software Carpentry]"/>
+
+</body>
+</html>

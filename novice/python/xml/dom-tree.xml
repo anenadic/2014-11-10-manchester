@@ -1,0 +1,5 @@
+<root>
+  <first>element</first>
+  <second attr="value">element</second>
+  <third-element/>
+</root>

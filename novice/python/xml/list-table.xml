@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title>Lists and Tables</title>
+  <meta name="svn" content="$Id: xml.swc 54 2005-04-13 13:29:28Z gvwilson $"/>
+</head>
+<body>
+
+<table cellpadding="3" border="1">
+  <tr>
+    <td align="center"><em>Unordered List</em></td>
+    <td align="center"><em>Ordered List</em></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">
+      <ul>
+        <li>Hydrogen</li>
+        <li>Lithium</li>
+        <li>Sodium</li>
+        <li>Potassium</li>
+        <li>Rubidium</li>
+        <li>Cesium</li>
+        <li>Francium</li>
+      </ul>
+    </td>
+    <td align="left" valign="top">
+      <ol>
+        <li>Helium</li>
+        <li>Neon</li>
+        <li>Argon</li>
+        <li>Krypton</li>
+        <li>Xenon</li>
+        <li>Radon</li>
+      </ol>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+solarsystem
+ TEXT (1)
+ planet
+  period
+   TEXT (5)
+ TEXT (1)
+ planet
+  period
+   TEXT (5)
+ TEXT (1)
+ planet
+  period
+   TEXT (6)
+ TEXT (1)

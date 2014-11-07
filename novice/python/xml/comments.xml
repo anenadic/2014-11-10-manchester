@@ -1,0 +1,15 @@
+<html>
+<head>
+  <title>Comments Page</title>
+  <meta name="author" content="aturing"/>
+</head>
+<body>
+
+<!-- House style puts all titles in italics -->
+<h1><em>Welcome to the Comments Page</em></h1>
+
+<!-- Update this paragraph to describe the forum. -->
+<p>Welcome to the Comments Forum.</p>
+
+</body>
+</html>

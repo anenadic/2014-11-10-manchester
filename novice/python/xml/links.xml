@@ -1,0 +1,24 @@
+<html>
+<head>
+  <title>Links</title>
+  <meta name="svn" content="$Id: xml.swc 54 2005-04-13 13:29:28Z gvwilson $"/>
+</head>
+<body>
+
+<h1>A Few of My Favorite Places</h1>
+
+<ul>
+  <li><a href="http://www.google.com">Google</a></li>
+  <li><a href="http://www.python.org">Python</a></li>
+  <li><a href="http://www.nature.com/index.html">Nature Online</a></li>
+  <li>Examples in this lecture:
+    <ul>
+      <li><a href="comments.html">Comments</a></li>
+      <li><a href="image.html">Images</a></li>
+      <li><a href="list_table.html">Lists and Tables</a></li>
+    </ul>
+  </li>
+</ul>
+
+</body>
+</html>
