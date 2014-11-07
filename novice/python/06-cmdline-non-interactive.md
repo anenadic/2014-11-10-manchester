@@ -16,7 +16,7 @@ we may want a program that reads a data set
 and prints the average inflammation per patient:
 
 ~~~
-$ python readings.py --mean inflammation-01.csv
+$ python readings-06.py --mean inflammation-01.csv
 5.45
 5.425
 6.1
@@ -29,13 +29,13 @@ $ python readings.py --mean inflammation-01.csv
 but we might also want to look at the minimum of the first four lines
 
 ~~~
-$ head -4 inflammation-01.csv | python readings.py --min
+$ head -4 inflammation-01.csv | python readings-06.py --min
 ~~~
 
 or the maximum inflammations in several files one after another:
 
 ~~~
-$ python readings.py --max inflammation-*.csv
+$ python readings-06.py --max inflammation-*.csv
 ~~~
 
 Our overall requirements are:
@@ -65,7 +65,7 @@ Using the text editor of your choice,
 save the following in a text file:
 
 
-<pre class="in"><code>!cat sys-version.py</code></pre>
+<pre class="in"><code>$ cat sys-version.py</code></pre>
 
 <div class="out"><pre class='out'><code>import sys
 print &#39;version is&#39;, sys.version
@@ -79,34 +79,19 @@ which describes which version of Python we are running.
 We can run this script from within the IPython Notebook like this:
 
 
-<pre class="in"><code>%run sys-version.py</code></pre>
+<pre class="in"><code>$ python sys-version.py</code></pre>
 
 <div class="out"><pre class='out'><code>version is 2.7.5 |Anaconda 1.8.0 (x86_64)| (default, Oct 24 2013, 07:02:20) 
 [GCC 4.0.1 (Apple Inc. build 5493)]
 </code></pre></div>
 
-
-or like this:
-
-
-<pre class="in"><code>!ipython sys-version.py</code></pre>
-
-<div class="out"><pre class='out'><code>version is 2.7.5 |Anaconda 1.8.0 (x86_64)| (default, Oct 24 2013, 07:02:20) 
-[GCC 4.0.1 (Apple Inc. build 5493)]
-</code></pre></div>
-
-
-The first method, `%run`,
-uses a special command in the IPython Notebook to run a program in a `.py` file.
-The second method is more general:
-the exclamation mark `!` tells the Notebook to run a shell command,
-and it just so happens that the command we run is `ipython` with the name of the script.
+This command tells the python interpreter installed in your machine to run program `sys-version.py` from the current directory.
 
 
 Here's another script that does something more interesting:
 
 
-<pre class="in"><code>!cat argv-list.py</code></pre>
+<pre class="in"><code>$ cat argv-list.py</code></pre>
 
 <div class="out"><pre class='out'><code>import sys
 print &#39;sys.argv is&#39;, sys.argv
@@ -121,7 +106,7 @@ so that the program can determine what they were.
 If we run this program with no arguments:
 
 
-<pre class="in"><code>!ipython argv-list.py</code></pre>
+<pre class="in"><code>$ python argv-list.py</code></pre>
 
 <div class="out"><pre class='out'><code>sys.argv is [&#39;/Users/gwilson/s/bc/python/novice/argv-list.py&#39;]
 </code></pre></div>
@@ -132,7 +117,7 @@ which is always `sys.argv[0]`.
 If we run it with a few arguments, however:
 
 
-<pre class="in"><code>!ipython argv-list.py first second third</code></pre>
+<pre class="in"><code>$ python argv-list.py first second third</code></pre>
 
 <div class="out"><pre class='out'><code>sys.argv is [&#39;/Users/gwilson/s/bc/python/novice/argv-list.py&#39;, &#39;first&#39;, &#39;second&#39;, &#39;third&#39;]
 </code></pre></div>
@@ -149,7 +134,7 @@ By convention this function is usually called `main`,
 though we can call it whatever we want:
 
 
-<pre class="in"><code>!cat readings-01.py</code></pre>
+<pre class="in"><code>$ cat readings-01.py</code></pre>
 
 <div class="out"><pre class='out'><code>import sys
 import numpy as np
@@ -169,7 +154,7 @@ and the name of the file to process from `sys.argv[1]`.
 Here's a simple test:
 
 
-<pre class="in"><code>%run readings-01.py inflammation-01.csv</code></pre>
+<pre class="in"><code>$ python readings-01.py inflammation-01.csv</code></pre>
 
 
 There is no output because we have defined a function,
@@ -177,7 +162,7 @@ but haven't actually called it.
 Let's add a call to `main`:
 
 
-<pre class="in"><code>!cat readings-02.py</code></pre>
+<pre class="in"><code>$ cat readings-02.py</code></pre>
 
 <div class="out"><pre class='out'><code>import sys
 import numpy as np
@@ -196,7 +181,7 @@ main()
 and run that:
 
 
-<pre class="in"><code>%run readings-02.py inflammation-01.csv</code></pre>
+<pre class="in"><code>$ python readings-02.py inflammation-01.csv</code></pre>
 
 <div class="out"><pre class='out'><code>5.45
 5.425
@@ -305,20 +290,20 @@ we'll start by creating three smaller files,
 each of which has three days of data for two patients:
 
 
-<pre class="in"><code>!ls small-*.csv</code></pre>
+<pre class="in"><code>$ ls small-*.csv</code></pre>
 
 <div class="out"><pre class='out'><code>small-01.csv small-02.csv small-03.csv
 </code></pre></div>
 
 
-<pre class="in"><code>!cat small-01.csv</code></pre>
+<pre class="in"><code>$ cat small-01.csv</code></pre>
 
 <div class="out"><pre class='out'><code>0,0,1
 0,1,2
 </code></pre></div>
 
 
-<pre class="in"><code>%run readings-02.py small-01.csv</code></pre>
+<pre class="in"><code>$ python readings-02.py small-01.csv</code></pre>
 
 <div class="out"><pre class='out'><code>0.333333333333
 1.0
@@ -352,7 +337,7 @@ and includes all the filenames.
 Here's our changed program:
 
 
-<pre class="in"><code>!cat readings-03.py</code></pre>
+<pre class="in"><code>$ cat readings-03.py</code></pre>
 
 <div class="out"><pre class='out'><code>import sys
 import numpy as np
@@ -371,7 +356,7 @@ main()
 and here it is in action:
 
 
-<pre class="in"><code>%run readings-03.py small-01.csv small-02.csv</code></pre>
+<pre class="in"><code>$ python readings-03.py small-01.csv small-02.csv</code></pre>
 
 <div class="out"><pre class='out'><code>0.333333333333
 1.0
@@ -409,7 +394,7 @@ These always appear before the names of the files,
 so we could just do this:
 
 
-<pre class="in"><code>!cat readings-04.py</code></pre>
+<pre class="in"><code>$ cat readings-04.py</code></pre>
 
 <div class="out"><pre class='out'><code>import sys
 import numpy as np
@@ -439,7 +424,7 @@ main()
 This works:
 
 
-<pre class="in"><code>%run readings-04.py --max small-01.csv</code></pre>
+<pre class="in"><code>$ python readings-04.py --max small-01.csv</code></pre>
 
 <div class="out"><pre class='out'><code>1.0
 2.0
@@ -462,7 +447,7 @@ before doing any processing,
 so that the program fails fast:
 
 
-<pre class="in"><code>!cat readings-05.py</code></pre>
+<pre class="in"><code>$ cat readings-05.py</code></pre>
 
 <div class="out"><pre class='out'><code>import sys
 import numpy as np
@@ -530,7 +515,7 @@ and so on.
 Let's experiment in another script:
 
 
-<pre class="in"><code>!cat count-stdin.py</code></pre>
+<pre class="in"><code>$ cat count-stdin.py</code></pre>
 
 <div class="out"><pre class='out'><code>import sys
 
@@ -550,38 +535,24 @@ but we can do almost anything with it that we could do to a regular file.
 Let's try running it as if it were a regular command-line program:
 
 
-<pre class="in"><code>!ipython count-stdin.py &lt; small-01.csv</code></pre>
+<pre class="in"><code>$ python count-stdin.py &lt; small-01.csv</code></pre>
 
 <div class="out"><pre class='out'><code>2 lines in standard input
 </code></pre></div>
 
 
-What if we run it using `%run`?
-
-
-<pre class="in"><code>%run count-stdin.py &lt; small-01.csv</code></pre>
-
-<div class="out"><pre class='out'><code>0 lines in standard input
-</code></pre></div>
-
-
-As you can see,
-`%run` doesn't understand file redirection:
-that's a shell thing.
-
 A common mistake is to try to run something that reads from standard input like this:
 
 ~~~
-!ipython count_stdin.py small-01.csv
+$ python count_stdin.py small-01.csv
 ~~~
 
 i.e., to forget the `<` character that redirect the file to standard input.
 In this case,
 there's nothing in standard input,
 so the program waits at the start of the loop for someone to type something on the keyboard.
-Since there's no way for us to do this,
-our program is stuck,
-and we have to halt it using the `Interrupt` option from the `Kernel` menu in the Notebook.
+When you have finished entering characters on standard input, press `CTRL-D` - this signifies the
+end the end of the input (just like as if it was reading from a file and had passed the last byte in the file).
 
 We now need to rewrite the program so that it loads data from `sys.stdin` if no filenames are provided.
 Luckily,
@@ -605,48 +576,21 @@ def main():
 ~~~
 
 
-Let's try it out
-(we'll see in a moment why we send the output through `head`):
+Let's try it out:
 
-
-<pre class="in"><code>!ipython readings-06.py --mean &lt; small-01.csv | head -10</code></pre>
-
-<div class="out"><pre class='out'><code>[TerminalIPythonApp] CRITICAL | Bad config encountered during initialization:
-[TerminalIPythonApp] CRITICAL | Unrecognized flag: &#39;--mean&#39;
-=========
- IPython
-=========
-
-Tools for Interactive Computing in Python
-=========================================
-
-    A Python shell with automatic history (input and output), dynamic object
-    introspection, easier configuration, command completion, access to the
-    system shell and more.  IPython can also be embedded in running programs.
-</code></pre></div>
-
-
-Whoops:
-why are we getting IPython's help rather than the line-by-line average of our data?
-The answer is that IPython has a hard time telling
-which command-line arguments are meant for it,
-and which are meant for the program it's running.
-To make our meaning clear,
-we have to use `--` (a double dash)
-to separate the two:
-
-
-<pre class="in"><code>!ipython readings-06.py -- --mean &lt; small-01.csv</code></pre>
+<pre class="in"><code>$ python readings-06.py --mean &lt; small-01.csv</code></pre>
 
 <div class="out"><pre class='out'><code>0.333333333333
 1.0
 </code></pre></div>
 
+If you want just the top `n` lines of output, you can send the output through `head`.
+`head -1` will simply show the first line of output (we only have 2 lines of output anyway):
 
-That's better.
-In fact,
-that's done:
-the program now does everything we set out to do.
+<pre class="in"><code>$ python readings-06.py --mean &lt; small-01.csv | head -1</code></pre>
+
+
+That's it: the program now does everything we set out to do.
 
 
 <div class="challenges" markdown="1">
