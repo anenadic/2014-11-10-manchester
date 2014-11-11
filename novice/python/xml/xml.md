@@ -79,7 +79,6 @@ Elements are shown using [tags]({{page.root}}/book/glossary.html#tag-xml):
 
 ###The Document Object Model
 
-
 -   The [Document Object Model
     (DOM)]({{page.root}}/book/glossary.html#document-object-model) is a
     cross-language standard for representing XML documents as trees
@@ -92,12 +91,8 @@ Elements are shown using [tags]({{page.root}}/book/glossary.html#tag-xml):
     -   Needs a lot of memory for large documents
     -   Generic standard doesn't take advantage of the more advanced
         features of some languages
--   Python's standard library includes a simple implementation of DOM
-    called `minidom`
-    -   Fast, sturdy, and well documented...
-    -   ...if you understand all the terminology, and know more or less
-        what you're looking for
-- There is also another library, `Element Tree` which was included into the Python's standard library. Element Tree was included after `minidom` so, even though it is often now recommended and preferred over `monidom` you can still have to deal with the code which uses `minidom`. For that reason we will have a look at examples using both libraries. 
+
+Python's standard library includes `Element Tree`  library (xml.etree.ElementTree typically shortened to ET). `Element Tree` provides easy ways to manipulate XML documents. ET is also a widely used library so learning it will help you in working with the code written by other developers.
 
 ####DOM -the Basics
 
@@ -136,12 +131,11 @@ Figure 21.5: A DOM Tree
         [[ElementTree]](bib.html#bib:elementtree) use dictionaries
         instead
     -   Pro: makes simple things a little simpler
-    -   Con: not (yet) part of the standard library
 
-#####Creating a Tree
 
+
+#####Creating a Tree using ElementTree
 -   Usual way to create a DOM tree is to parse a file
-
 Example: file "mercury.xml"
 
 	<?xml version="1.0" encoding="utf-8"?>
@@ -149,23 +143,17 @@ Example: file "mercury.xml"
 	  <period units="days">87.97</period>
 	</planet>
 
-
-Example: file "create-mercury.py"
-
-	import xml.dom.minidom
-	doc = xml.dom.minidom.parse('mercury.xml')
-	print doc.toxml('utf-8')
-
-
-The output file "create-mercury.out":
-
-	<?xml version="1.0" encoding="utf-8"?>
-	<planet name="Mercury">
-  	<period units="days">87.97</period>
-	</planet>
-
-
+        import xml.etree.ElementTree as etree
+	doc = etree.parse('mercury.xml')
+	root=doc.getroot()
+	print root.attrib
+	
 ####Converting to Text
+
+
+
+
+
 
 -   The `toxml` method can be called on the document, or on any element
     node, to create text
