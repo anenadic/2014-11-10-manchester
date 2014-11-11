@@ -100,47 +100,34 @@ Figure 21.5: A XML Tree
 
 #####Creating a Tree using ElementTree and extracting element object 'root'
 
-Example: file "mercury.xml"
+Example: file""planets.xml"
 
-	<?xml version="1.0" encoding="utf-8"?>
-	<planet name="Mercury">
-	  <period units="days">87.97</period>
-	</planet>
 
-        import xml.etree.ElementTree as etree
-	tree = etree.parse('mercury.xml')
+    import xml.etree.ElementTree as etree
+	tree = etree.parse('planets.xml')
 	root = tree.getroot()
 	print root.attrib
 	
-Output:
-	
-	{'name': 'Mercury'}
+
 	
 Listing all root's children
    
     for child in root:
     	print "tag=",child.tag, " attrib=",child.attrib
     	
-    	
-Output:
 
-	tag=period  attrib={'units': 'days'}
     
 Elements are stored as a list so we can access the children using list indes:
 
-	print print root[0].tag, root[0].attrib
+	print root[0].tag, root[0].attrib
 
-Output:
 
-	period {'units': 'days'}
     	
 In ElementTree the attributes are stored as dictionaries:
 
-    	print child_of_root.attrib['units']
+    print child.attrib['units']
 
-Output:
 
-	days
 	
 #####Finding particular elements:
 We know now how to get hold of all elements in the XML document by recursively extracting all the children using the `for` loop. But the ET library comes with methods which allow for iterating over the elements immediately below a given element. The `iter` method does exactly that (using "depth-first iteration (DFS)"). `iter` method is available for both ElementTree and Element objects.  
@@ -150,20 +137,13 @@ Using iter for ElementTree:
 	for element in tree.iter():
     		print element.tag, element.attrib
 
-Output:
 
-	planet {'name': 'Mercury'}
-	period {'units': 'days'}
 
 Using iter for Element:
 
 	for element in root.iter():
     		print element.tag
 
-Output
-
-	planet
-	period
 
 
 We can use iter to find particular element:
@@ -173,282 +153,10 @@ We can use iter to find particular element:
     	print element.text
 
 
-####Other Ways To Create XML Documents
 
--   Can also create a tree by parsing a string
 
-	src = '''<planet name="Venus">
-	  <period units="days">224.7</period>
-	</planet>'''
 
-	doc = xml.dom.minidom.parseString(src)
-	print doc.toxml('utf-8')
 
-The output file create-venus.out
 
-	<?xml version="1.0" encoding="utf-8"?>
-	<planet name="Venus">
-  	<period units="days">224.7</period>
-	</planet>
 
 
--   Or by building a tree by hand
-
-``` {file="xml/create-mars.py"}
-
-	import xml.dom.minidom
-
-	impl = xml.dom.minidom.getDOMImplementation()
-
-	doc = impl.createDocument(None, 'planet', None)
-	root = doc.documentElement
-	root.setAttribute('name', 'Mars')
-
-	period = doc.createElement('period')
-	root.appendChild(period)
-
-	text = doc.createTextNode('686.98')
-	period.appendChild(text)
-
-	print doc.toxml('utf-8')
-
-
-``` {.out file="xml/create-mars.out"}
-<?xml version="1.0" encoding="utf-8"?>
-<planet name="Mars"><period>686.98</period></planet>
-```
-
--   Notice that the output of the preceding example wasn't nicely
-    indented
-    -   Because we didn't create text nodes containing carriage returns
-        and blanks
-    -   Most machine-generated XML doesn't
-
-
-
-####Finding Nodes
-
--   Often want to do things to all elements of a particular type
-    -   E.g., find all `experimenter` nodes, extract names, and print a
-        sorted list
--   Use the `getElementsByTagName` method to do this
-    -   Returns a list of all the descendants of a node with the
-        specified tag
-
-get-by-tag.py
-
-	import xml.dom.minidom
-
-	src = '''<heavenly_bodies>
-	  <planet name="Mercury"/>
-	  <planet name="Venus"/>
-	  <planet name="Earth"/>
-	  <moon name="Moon"/>
-	  <planet name="Mars"/>
-	  <moon name="Phobos"/>
-	  <moon name="Deimos"/>
-	</heavenly_bodies>'''
-
-	doc = xml.dom.minidom.parseString(src)
-	for node in doc.getElementsByTagName('moon'):
-	    print node.getAttribute('name')
-
-
-{.out file="xml/get-by-tag.out"}
-
-	Moon
-	Phobos
-	Deimos
-
-
--   Question: what happens if you add or delete nodes while looping over
-    this list?
-
-####Walking a Tree
-
--   Often want to visit each node in the tree
-    -   E.g., print an outline of the document showing element nesting
--   Node's type is stored in a member variable called `nodeType`
-    -   `ELEMENT_NODE`, `TEXT_NODE`, `ATTRIBUTE_NODE`, `DOCUMENT_NODE`
--   If a node is an element, its children are stored in a read-only list
-    called `childNodes`
--   If a node is a text node, the actual text is in the member `data`
-
-####Recursive Tree Walker
-
-recurse.py
-
-	import xml.dom.minidom
-
-	src = '''<solarsystem>
-	<planet name="Mercury"><period units="days">87.97</period></planet>
-	<planet name="Venus"><period units="days">224.7</period></planet>
-	<planet name="Earth"><period units="days">365.26</period></planet>
-	</solarsystem>
-
-
-	def walkTree(currentNode, indent=0):
-    	spaces = ' ' * indent
-	    if currentNode.nodeType == currentNode.TEXT_NODE:
-	        print spaces + 'TEXT' + ' (%d)' % len(currentNode.data)
-	    else:
-	        print spaces + currentNode.tagName
-	        for child in currentNode.childNodes:
-    	        walkTree(child, indent+1)
-
-	doc = xml.dom.minidom.parseString(src)
-	walkTree(doc.documentElement)
-
-
-.out recurse.out
-
-	solarsystem
-	 TEXT (1)
-	 planet
-	  period
-	   TEXT (5)
-	 TEXT (1)
-	 planet
-	  period
-	   TEXT (5)
-	 TEXT (1)
-	 planet
-	  period
-	   TEXT (6)
-	 TEXT (1)
-
-
--   Traversing a tree like this is just one of many recurring patterns
-    in object-oriented programming
-    -   We'll discuss them briefly in [Summary](summary.html)
-
-####Modifying the Tree
-
-
--   Modifying trees in place is a little bit tricky
-    -   Helps to draw lots of pictures
--   Example: want to *emphasize* the first word of each paragraph
-    -   Get the text node below the paragraph
-    -   Take off the first word
-    -   Insert a new `em` element whose only child is a text node
-        containing that word
-
-![Modifying the DOM Tree](modify-tree.png)
-
-Figure 21.6: Modifying the DOM Tree
-
-####Complications
-
-
--   But what if the first child of the paragraph already has some markup
-    around it?
-    -   E.g., what if the paragraph starts with a link?
--   Could just wrap the first child with `em`
-    -   But if (for example) the link contains several words, this will
-        look wrong
--   We'll ignore this problem for now
-
-####Solution
-
--   Step 1: find all the paragraphs using `getElementsByTagName`, and
-    iterate over them
-
-modify-tree.py section="emphasize"
-
-	def emphasize(doc):
-	    paragraphs = doc.getElementsByTagName('p')
-	    for para in paragraphs:
-	        first = para.firstChild
-	        if first.nodeType == first.TEXT_NODE:
-	            emphasizeText(doc, para, first)
-
-
--   Step 2: break the paragraph text into pieces, and handle each piece
-    in turn
-    -   Create a new node for each piece
-    -   Push it onto the front of the paragraph's child list
-    -   Once they've all been handled, get rid of the original text node
-
-modify-tree.py" section="func"
-
-	def emphasizeText(doc, para, textNode):
-
- 	   # Look for optional spaces, a word, and the rest of the paragraph.
-	    m = re.match(r'^(\s*)(\S*)\b(.*)$', str(textNode.data))
-	    if not m:
-	        return
-	    leadingSpace, firstWord, restOfText = m.groups()
-	    if not firstWord:
-	        return
-
-	    # If there's text after the first word, re-save it.
-	    if restOfText:
-	        restOfText = doc.createTextNode(restOfText)
-	        para.insertBefore(restOfText, para.firstChild)
-
-	    # Emphasize the first word.
-	    emph = doc.createElement('em')
-	    emph.appendChild(doc.createTextNode(firstWord))
-	    para.insertBefore(emph, para.firstChild)
-
-	    # If there's leading space, re-save it.
-	    if leadingSpace:
-    	    leadingSpace = doc.createTextNode(leadingSpace)
-	        para.insertBefore(leadingSpace, para.firstChild)
-
-    	# Get rid of the original text.
-	    para.removeChild(textNode)
-
-
-####Not Finished Yet
-
--   Part 3: test it
-    -   Yes, it really is part of the program
-
-xml/modify-tree.py" section="test"
-
-	if __name__ == '__main__':
-
-    	src = '''<html><body>
-	<p>First paragraph.</p>
-	<p>Second paragraph contains <em>emphasis</em>.</p>
-	<p>Third paragraph.</p>
-	</body></html>
-
-	    doc = xml.dom.minidom.parseString(src)
-	    emphasize(doc)
-	    print doc.toxml('utf-8')
-
-
-{.out file="xml/modify-tree.out"}
-
-	<?xml version="1.0" encoding="utf-8"?>
-	<html><body>
-	<p><em>First</em> paragraph.</p>
-	<p><em>Second</em> paragraph contains <em>emphasis</em>.</p>
-	<p><em>Third</em> paragraph.</p>
-	</body></html>
-
-
-####Summary
-
--   There's a lot of hype in hypertext
-    -   Haven't yet heard anyone claim that XML will cure the common
-        cold, but I'm sure it's been said
--   Pros:
-    -   One set of rules for people to learn
-    -   Never have to write a parser again
-        -   At least, the low-level syntactic bits---still need to
-            figure out what all those tags *mean*
--   Cons:
-    -   Raw XML is hard to read
-        -   Particularly if it has been generated by a machine
-    -   A lot of data isn't actually trees
-        -   When storing a 2D matrix or a table, you have to organize
-            data by row or by column...
-        -   ...either of which makes the other hard to access
-    -   There are a lot of complications and subtleties
-        -   Most applications ignore most of them
-        -   Which means that they fail (usually badly) when confronted
-            with something outside the subset they understand
--   Like Inglish speling, it's here to stay
