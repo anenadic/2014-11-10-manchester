@@ -123,20 +123,38 @@ Example: file "mercury.xml"
 	root = doc.getroot()
 	print root.attrib
 	
+Output:
+	
+	{'name': 'Mercury'}
+	
 Listing all root's children
    
     for child in root:
     	print "tag=",child.tag, " attrib=",child.attrib
     	
+    	
 Output:
+
 	tag=period  attrib={'units': 'days'}
+    
+Elements are stored as a list so we can access the children using list indes:
+
+	print print root[0].tag, root[0].attrib
+
+Output:
+
+	period {'units': 'days'}
     	
 In ElementTree the attributes are stored as dictionaries:
 
     	print child_of_root.attrib['units']
 
 Output:
+
 	days
+	
+Finding particular elements:
+
 
 ####Other Ways To Create Documents
 
