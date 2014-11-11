@@ -79,7 +79,7 @@ Elements are shown using [tags]({{page.root}}/book/glossary.html#tag-xml):
 
 ###Element Tree library in Python
 
-Python's standard library includes `Element Tree`  library (xml.etree.ElementTree typically shortened to ET). `Element Tree` provides easy ways to manipulate XML documents. ET is also a widely used library so learning it will help you in working with the code written by other developers.
+Python's standard library includes [`Element Tree`](https://docs.python.org/2/library/xml.etree.elementtree.html#)  library (xml.etree.ElementTree typically shortened to ET). `Element Tree` provides easy ways to manipulate XML documents. ET is also a widely used library so learning it will help you in working with the code written by other developers.
 
 
 #####XML Tree Example
@@ -96,17 +96,6 @@ XML documents have hierarchical structure.
 
 Figure 21.5: A XML Tree
 
-####More On Tree Structure
-
--   Every node keeps track of what its parent is
-    -   Allows programs to search up the tree, as well as down
--   Note: it's easy to forget that text and attributes are stored in
-    nodes of their own
-    -   Other Python libraries like
-        [[ElementTree]](bib.html#bib:elementtree) use dictionaries
-        instead
-    -   Pro: makes simple things a little simpler
-
 
 
 #####Creating a Tree using ElementTree and extracting element object 'root'
@@ -119,8 +108,8 @@ Example: file "mercury.xml"
 	</planet>
 
         import xml.etree.ElementTree as etree
-	doc = etree.parse('mercury.xml')
-	root = doc.getroot()
+	tree = etree.parse('mercury.xml')
+	root = tree.getroot()
 	print root.attrib
 	
 Output:
@@ -153,13 +142,40 @@ Output:
 
 	days
 	
-Finding particular elements:
+#####Finding particular elements:
+We know now how to get hold of all elements in the XML document by recursively extracting all the children using the `for` loop. But the ET library comes with methods which allow for iterating over the elements immediately below a given element. The `iter` method does exactly that (using "depth-first iteration (DFS)"). `iter` method is available for both ElementTree and Element objects.  
+
+Using iter for ElementTree:
+
+	for element in tree.iter():
+    		print element.tag, element.attrib
+
+Output:
+
+	planet {'name': 'Mercury'}
+	period {'units': 'days'}
+
+Using iter for Element:
+
+	for element in root.iter():
+    		print element.tag
+
+Output
+
+	planet
+	period
 
 
-####Other Ways To Create Documents
+We can use iter to find particular element:
+
+    for element in root.iter('period'):
+    	print element.attrib
+    	print element.text
+
+
+####Other Ways To Create XML Documents
 
 -   Can also create a tree by parsing a string
-
 
 	src = '''<planet name="Venus">
 	  <period units="days">224.7</period>
