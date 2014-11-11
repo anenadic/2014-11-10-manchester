@@ -1,9 +1,6 @@
 ---
 layout: lesson
-root: ../../..
-github_username: apawlik
-bootcamp_slug: 2014-02-03-TGAC
-title: Debugging and testing
+root: ../..
 ---
 
 **Based on materials by Mike Jackson, Katy Huff, Rachel Slaybaugh, Patrick Fuller and Anthony Scopatz. With special thanks to Gordon Webster, the [Digital Biologist](http://www.digitalbiologist.com), for kindly allowing use of his [Python DNA function](http://www.digitalbiologist.com/2011/04/code-tutorial-getting-started-with-python.html).**
