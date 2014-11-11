@@ -77,38 +77,13 @@ Elements are shown using [tags]({{page.root}}/book/glossary.html#tag-xml):
 
 
 
-###The Document Object Model
-
--   The [Document Object Model
-    (DOM)]({{page.root}}/book/glossary.html#document-object-model) is a
-    cross-language standard for representing XML documents as trees
-    -   One node for each element, attribute, or text
--   Pro:
-    -   Much easier to manipulate trees than strings
-    -   Same basic model in many different languages (which lowers the
-        learning cost)
--   Con:
-    -   Needs a lot of memory for large documents
-    -   Generic standard doesn't take advantage of the more advanced
-        features of some languages
+###Element Tree library in Python
 
 Python's standard library includes `Element Tree`  library (xml.etree.ElementTree typically shortened to ET). `Element Tree` provides easy ways to manipulate XML documents. ET is also a widely used library so learning it will help you in working with the code written by other developers.
 
-####DOM -the Basics
 
--   Every DOM tree has a single root representing the document as a
-    whole
-    -   Doesn't correspond to anything that's actually *in* the document
--   This element has a single child, which is the root node of the
-    document
--   It, and other element nodes, may have three types of children:
-    -   Other elements
-    -   Text nodes
-    -   Attribute nodes
-
-#####DOM Tree Example
-
-{file="xml/dom-tree.xml"}
+#####XML Tree Example
+XML documents have hierarchical structure. 
 
 	<root>
 	  <first>element</first>
@@ -117,9 +92,9 @@ Python's standard library includes `Element Tree`  library (xml.etree.ElementTre
 	</root>
 
 
-![A DOM Tree](dom-tree.png)
+![A XML Tree](dom-tree.png)
 
-Figure 21.5: A DOM Tree
+Figure 21.5: A XML Tree
 
 ####More On Tree Structure
 
@@ -134,8 +109,8 @@ Figure 21.5: A DOM Tree
 
 
 
-#####Creating a Tree using ElementTree
--   Usual way to create a DOM tree is to parse a file
+#####Creating a Tree using ElementTree and extracting element object 'root'
+
 Example: file "mercury.xml"
 
 	<?xml version="1.0" encoding="utf-8"?>
@@ -145,59 +120,28 @@ Example: file "mercury.xml"
 
         import xml.etree.ElementTree as etree
 	doc = etree.parse('mercury.xml')
-	root=doc.getroot()
+	root = doc.getroot()
 	print root.attrib
 	
-####Converting to Text
+Listing all root's children
+   
+    for child in root:
+    	print "tag=",child.tag, " attrib=",child.attrib
+    	
+Output:
+	tag=period  attrib={'units': 'days'}
+    	
+In ElementTree the attributes are stored as dictionaries:
 
+    	print child_of_root.attrib['units']
 
-
-
-
-
--   The `toxml` method can be called on the document, or on any element
-    node, to create text
--   DOM trees always store text as
-    [Unicode]({{page.root}}/book/glossary.html#unicode), so when you're
-    converting the tree to text, you must tell the library how to
-    represent characters
-    -   Example above uses
-        [UTF-8]({{page.root}}/book/glossary.html#utf-8), which is the
-        best default choice
-    -   See [[Spolsky Unicode]](bib.html#bib:spolsky-unicode) for the
-        details
--   This means that strings taken from XML documents are Unicode, not
-    ASCII
-
-Example: file "unicode.py"
-
-	import xml.dom.minidom
-
-	my_xml = '''<name>Donald Knuth</name>'''
-	my_doc = xml.dom.minidom.parseString(my_xml)
-	name = my_doc.documentElement.firstChild.data
-	print 'name is:', name
-	print 'but name in full is:', repr(name)
-
-
-The output unicode.out
-
-	name is: Donald Knuth
-	but name in full is: u'Donald Knuth'
-
-
--   Note the `u` in front of the string the second time it is printed
-    -   A simple `print` statement converts the Unicode string to ASCII
-        for display
-
+Output:
+	days
 
 ####Other Ways To Create Documents
 
 -   Can also create a tree by parsing a string
 
-Example file "create-venus.py"
-
-	import xml.dom.minidom
 
 	src = '''<planet name="Venus">
 	  <period units="days">224.7</period>
@@ -246,26 +190,7 @@ The output file create-venus.out
         and blanks
     -   Most machine-generated XML doesn't
 
-####The Details
 
--   `xml.dom.minidom` is really just a wrapper around other
-    platform-specific XML libraries
-    -   Have to reach inside it and get the underlying implementation
-        object to create the `document` node
-    -   That node then knows how to create other elements in the
-        document
-    -   Middle argument to `createDocument` specifies the type of the
-        document's root node
-    -   Documentation explains what the first and third arguments to
-        `createDocument` are
--   Add new nodes to existing ones by:
-    -   Asking the document to create the node
-    -   Appending it to a node that's already part of the tree
--   Set attributes of element nodes using
-    `setAttribute(attributeName, newValue)`
-    -   Remember, all attribute values are strings
-    -   If you want to store an integer or a Boolean, you have to
-        convert it yourself
 
 ####Finding Nodes
 
