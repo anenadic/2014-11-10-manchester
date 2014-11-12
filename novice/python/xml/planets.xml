@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<planet name="Mercury">
-  <period units="days">87.97</period>
-</planet>
+	<galaxy name="Solar System">
+	<planet name="Mercury"><period units="days">87.97</period></planet>
+	<planet name="Mars"><period units="days">56.97</period>
+	<moon name="Phobos"> </moon>
+	<moon name="Deimos"> </moon>
+	</planet>
+	<planet name="Venus"><period units="days">224.7</period></planet>
+	<planet name="Earth"><period units="days">365.26</period></planet>
+	</galaxy>

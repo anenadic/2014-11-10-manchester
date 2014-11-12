@@ -29,8 +29,8 @@ A basic XML [document]({{page.root}}/book/glossary.html#document) contains [elem
 
 Elements are shown using [tags]({{page.root}}/book/glossary.html#tag-xml):  
     -   Must be enclosed in angle brackets `<>`  
-    -   Full form: `tagname`...  
-    -   Short form (if the element doesn't contain anything): `tagname`
+
+ 
 
 ####Document Structure
 -   Elements must be properly nested
@@ -83,7 +83,7 @@ Python's standard library includes [`Element Tree`](https://docs.python.org/2/li
 
 
 #####XML Tree Example
-XML documents have hierarchical structure. 
+XML documents have hierarchical structure so  a natural way to represent them is to use a tree structure.
 
 	<root>
 	  <first>element</first>
@@ -92,15 +92,26 @@ XML documents have hierarchical structure.
 	</root>
 
 
-![A XML Tree](dom-tree.png)
+![An XML Tree](dom-tree.png)
 
-Figure 21.5: A XML Tree
+Figure 21.5: An XML Tree
 
 
 
 #####Creating a Tree using ElementTree and extracting element object 'root'
 
-Example: file""planets.xml"
+Example: file "planets.xml"
+
+	<?xml version="1.0" encoding="utf-8"?>
+		<galaxy name="Solar System">
+		<planet name="Mercury"><period units="days">87.97</period></planet>
+		<planet name="Mars"><period units="days">56.97</period>
+		<moon name="Phobos"> </moon>
+		<moon name="Deimos"> </moon>
+		</planet>
+		<planet name="Venus"><period units="days">224.7</period></planet>
+		<planet name="Earth"><period units="days">365.26</period></planet>
+		</galaxy>
 
 
     import xml.etree.ElementTree as etree
@@ -117,7 +128,7 @@ Listing all root's children
     	
 
     
-Elements are stored as a list so we can access the children using list indes:
+Elements are stored as a list so we can access the children using list indexes:
 
 	print root[0].tag, root[0].attrib
 
@@ -125,11 +136,12 @@ Elements are stored as a list so we can access the children using list indes:
     	
 In ElementTree the attributes are stored as dictionaries:
 
-    print child.attrib['units']
+    print child.attrib['name']
 
 
 	
-#####Finding particular elements:
+####Finding particular elements:
+
 We know now how to get hold of all elements in the XML document by recursively extracting all the children using the `for` loop. But the ET library comes with methods which allow for iterating over the elements immediately below a given element. The `iter` method does exactly that (using "depth-first iteration (DFS)"). `iter` method is available for both ElementTree and Element objects.  
 
 Using iter for ElementTree:
@@ -141,17 +153,21 @@ Using iter for ElementTree:
 
 Using iter for Element:
 
-	for element in root.iter():
-    		print element.tag
-
+	for element in root[0].iter():
+    		print element.tag, element.attrib
 
 
 We can use iter to find particular element:
 
-    for element in root.iter('period'):
+    for element in root.iter(tag= 'period'):
     	print element.attrib
     	print element.text
+    	
+Or
 
+ 	for element in root.iter(tag='moon'):
+    	print element.attrib
+    	print element.text
 
 
 
